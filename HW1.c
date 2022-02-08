@@ -63,7 +63,21 @@ return intStatus;
 
 int readFile(char *fileName){
     /*
-        
+        FUNCTION NAME: readFile
+        @params: 
+        char *fileName - the string representation of the file name/ path that the user wishes
+        to analyze.
+        RETURNS : an integer representing the function status code. 0 = ok
+        FUNCTION DESCRIPTION:
+            This function opens a user specified file, and firstly sets the num_stds int
+            of the prog1.h header file so that the rest of the program knows how many students
+            are being analyzed. Next, space is allocated for the students array, pointed to by
+            struct StudentGrade *students. Next we loop through all the students in the file(the
+            specified number(num_stds)). Each iteration of the loop creates a new temp StudentGrade
+            structure and a pointer to it. 3 lines of the file will be read, firstly the student name,
+            next is the id and lastly the math and cs grades. After the temp has been given the appropriate
+            data we point to it by incrementing the students pointer (*(students + i) = *ptr). After
+            the loop is finished we return 0.
     */
     //local vars
     FILE *file = fopen(fileName, "r"); //file we are reading
@@ -115,7 +129,7 @@ int readFile(char *fileName){
         ptr = &temp;
         *(students + i) = *ptr;
         i++;
-       
+    
 
     }
     return 0;
@@ -123,6 +137,22 @@ int readFile(char *fileName){
 }//end readFile
 
 void printReport(){
+    /*
+        FUNCTION NAME: printReport
+        @params: none
+        RETURNS: void
+        FUNCTION DESCRIPTION:
+            This function is responsible for showing the output of the analysis to the user.
+            Firstly it prints out headers for information types. Next it enters a loop which iterates
+            num_stds times. In the loop we create a new new StudentGrade stuct representing the student
+            we want to print, and assign it the struct at *(students + i). We use printf and variable 
+            placeholders to ensure that the output is neat. We can print name and id off the bat,
+            and then we call calculateGrade with the math and cs scores to get a character representation
+            of the students grade and print this out. After the loop we print out a break line, and
+            call getMathAverage and getCSAverage to get the class averages for the two,we print these out and
+            end the function.
+
+    */
 //first print out the headers
 printf(" Student Name      Student ID      Math 116   CS 116\n");
 printf("--------------     ----------      --------   ------\n");
@@ -130,7 +160,7 @@ printf("--------------     ----------      --------   ------\n");
 for (size_t i = 0; i < num_stds; i++){
     struct StudentGrade currStudent = *(students+ i);
     //print name and id
-    printf("%*.*s     %*i",14,14, currStudent.name, 10, currStudent.id);
+    printf("%*.*s         %06i",14,14, currStudent.name, currStudent.id);
     //print math score with grade
     char grade = calculateGrade(currStudent.math116); 
     printf("      %*d(%c)", 5, currStudent.math116, grade);
@@ -146,11 +176,19 @@ double csAverage = getCSAverage();
 //now print class averages
 printf("Math 116 Average: %*.*f\n",3,2, mathAverage);
 printf("CS 116 Average: %*.*f\n",3,2, csAverage);
-printf("*** END OF REPORT ***");
+printf("*** END OF REPORT ***\n");
 
 
 }//end printReport
 char calculateGrade(int score){
+    /*
+        FUNCTION NAME: calculateGrade
+        @params : int score - an integer representing the score for which we want a letter grade
+        RETURNS : a character representation of the grade.
+        FUNCTION DESCRIPTION:
+            This function goes through conditionals in order to see what letter grade should be
+            assigned to the score provided, this letter is then returned.
+    */
     if (score < 60){
         return 'F';
     }else if (score < 70){
@@ -166,6 +204,18 @@ char calculateGrade(int score){
     
 }//end calculateGrade
 double getMathAverage(){
+    /*
+        FUNCTION NAME : getMathAverage
+        @params : none
+        RETURNS : a double representing the class average math score.
+        FUNCTION DESCRIPTION:
+            This creates an integer representing the sum of the students math scores. We then loop
+            through all the StudentGrades pointed to by the StudentGrade *students array. In each iteration
+            we get a struct of the currentStudent and add their math score to the total. After the loop we want
+            to get the average, so firstly we have to get a double representation of total. We also multiply this
+            by 100 so that the first two decimal places of the double will be accurate. We then divide the total by
+            (100 * num_stds) the 100 is so that our score is accurate. Lastly we return the double value.
+    */
 int total = 0; //the total so far
 //loop through students and add each score to total
 for(size_t i = 0; i < num_stds; i++){
@@ -179,6 +229,18 @@ double dblTotal = (double)total / (100.00 * num_stds);
 return dblTotal;
 }
 double getCSAverage(){
+    /*
+        FUNCTION NAME : getCSAverage
+        @params : none
+        RETURNS : a double representing the class average cs score.
+        FUNCTION DESCRIPTION:
+            This creates an integer representing the sum of the students cs scores. We then loop
+            through all the StudentGrades pointed to by the StudentGrade *students array. In each iteration
+            we get a struct of the currentStudent and add their cs score to the total. After the loop we want
+            to get the average, so firstly we have to get a double representation of total. We also multiply this
+            by 100 so that the first two decimal places of the double will be accurate. We then divide the total by
+            (100 * num_stds) the 100 is so that our score is accurate. Lastly we return the double value.
+    */
 int total = 0; //the total so far
 //loop through students and add each score to total
 for(size_t i = 0; i < num_stds; i++){
@@ -193,7 +255,15 @@ return dblTotal;
 }
 
 int exists(char *fileName){
-    FILE *file;
+    /*
+        FUNCTION NAME : exists
+        @params : char *fileName - the file name or path of the user designated file to analyze
+        RETURNS : an integer either 1 or 0. 1 means the file exists, 0 means it does not.
+        FUNCTION DESCRIPTION:
+            This function takes in the file name or path, and tries to open the file. If opened sucessfully the
+            file is closed and the function returns 1 (sucess). If file not opened the function returns 0 (not found).
+    */
+    FILE *file; //the file we wish to check if exists
     if ((file = fopen(fileName, "r")))
     {
         //file exists
