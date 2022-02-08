@@ -1,0 +1,46 @@
+15
+mark whalberg
+000001
+0 99
+wall markberg
+000002
+99 0
+tina harlow
+000003
+69 79
+tina harhi
+000004
+89 99
+ben kenobi
+000005
+100 100
+obi wan
+000006
+100 100
+anakin skywalker
+000007
+70 90
+luke skywalker
+000008
+99 99
+captain america
+000009
+80 80
+captain britain
+000010
+81 81
+aaaa aaaa
+000011
+50 90
+bbb bbb
+000012
+55 99
+ccc ddd
+000013
+0 100
+peter parker
+000014
+100 100
+spider man
+000015
+0 100
