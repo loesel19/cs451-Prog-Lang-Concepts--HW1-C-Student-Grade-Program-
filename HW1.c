@@ -1,13 +1,35 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "prog1.h"
 
-
-
 struct StudentGrade *students;// array of students
 
+// Program 1: Student Grade file analyzer/report generator
+// Course: CS451 Winter 2022
+// Instructor: Il-Hyung Cho
+// Student: Andrew Loesel
+// Email: aaloesel@svsu.edu
+// Program Description:
+/*
+    This program will get the name or path of a file containing information about student grades
+    from the user. Then calls the exists method to see if the file exists. If the file exists
+    readFile is called so that the data from the file can be abstracted into the program as
+    an array of StudentGrade structs. If readFile is completed sucessfully then we call the
+    printReport function which will print out all the students names, ids, grades(calls calculateGrade)
+    and then calls getMathAverage and getCSAverage functions to calculate and printOut the 
+    averages of scores in the two classes. After this the program is finished running.
+*/
 int main(){
+    /*
+        This is the main function of the program. Firstly it creates a char * for the file name
+        that will be read in with scanf. Secondly, it controls the workflow of the program, calling
+        methods to make sure the file exists and then calls readFile to get the data. Next
+        calls printReport to print out information to the user. It also keeps an int variable
+        for the status of the program which will be returned unless the file is not found(in
+        that case 1 is returned).
+    */
 
     char *fileName = malloc(100); //file name from input
     int intStatus; //status code for main function
@@ -20,8 +42,13 @@ if (intfExists == 1)
 {
     //read file
     intStatus = readFile(fileName);
-    //print out report
+    //print out report if the status returned from readfile is 0
+    if(intStatus == 0){
     printReport();
+    }
+    else{
+    return intStatus;
+    }
 }else{
     printf("Could not find file: \n");
     printf(fileName);
@@ -35,6 +62,9 @@ return intStatus;
 
 
 int readFile(char *fileName){
+    /*
+        
+    */
     //local vars
     FILE *file = fopen(fileName, "r"); //file we are reading
     char buff[255];//file buffer
